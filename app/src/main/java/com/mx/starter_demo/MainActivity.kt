@@ -1,9 +1,11 @@
 package com.mx.starter_demo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.mx.starter.MXPermission
 import com.mx.starter.MXStarter
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +21,20 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        MXPermission.requestPermission(
+            this,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        ) { allowed ->
+            Toast.makeText(
+                this@MainActivity,
+                "获取权限：$allowed",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
