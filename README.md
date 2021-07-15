@@ -24,3 +24,21 @@ MXStarter.start(this, ResultActivity::class.java) { resultCode: Int, data: Inten
     // 这里获取结果
 }
 ```
+
+### 权限申请功能集成
+在Activity和Fragment中可以直接获取权限申请回调，不需要再重载Activity的 onRequestPermissionsResult() 方法获取结果
+```kotlin
+MXPermission.requestPermission(
+            activity,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        ) { allowed ->
+            Toast.makeText(
+                this@MainActivity,
+                "获取权限：$allowed",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+```
