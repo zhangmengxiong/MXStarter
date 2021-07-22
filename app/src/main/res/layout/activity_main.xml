@@ -10,4 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="启动子页面" />
+    <Button
+        android:id="@+id/permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取权限" />
 </LinearLayout>

@@ -1,11 +1,7 @@
 package com.mx.starter
 
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import java.util.*
@@ -23,8 +19,8 @@ class MXPrivateFragment : Fragment() {
         /**
          * 权限结果集
          */
-        private val PERMISSION_RESULT_MAP: TreeMap<Int, ((allowed: Boolean) -> Unit)> =
-            TreeMap<Int, ((allowed: Boolean) -> Unit)>()
+        private val PERMISSION_RESULT_MAP: TreeMap<Int, ((allowed: Boolean, un_permissions: Array<String>) -> Unit)> =
+            TreeMap<Int, ((allowed: Boolean, un_permissions: Array<String>) -> Unit)>()
 
 
         fun getStarterFragment(fragmentManager: FragmentManager): MXPrivateFragment {
@@ -47,7 +43,7 @@ class MXPrivateFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
+        setRetainInstance(true)
     }
 
     fun startActivity(intent: Intent?, listener: ((resultCode: Int, data: Intent?) -> Unit)) {
@@ -69,7 +65,10 @@ class MXPrivateFragment : Fragment() {
         ACTIVITY_RESULT_MAP.remove(requestCode)?.invoke(resultCode, data)
     }
 
-    fun requestPermission(permissions: Array<String>, result: ((allowed: Boolean) -> Unit)) {
+    fun requestPermission(
+        permissions: Array<String>,
+        result: ((allowed: Boolean, un_permissions: Array<String>) -> Unit)
+    ) {
         val requestCode = getPermissionRequestCode()
         PERMISSION_RESULT_MAP[requestCode] = result
         requestPermissions(permissions, requestCode)
@@ -90,24 +89,11 @@ class MXPrivateFragment : Fragment() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        val allowed = hasPermission(requireContext(), permissions.toList().toTypedArray())
-        PERMISSION_RESULT_MAP.remove(requestCode)?.invoke(allowed)
-    }
-
-    private fun hasPermission(context: Context, array: Array<String>): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true
-        }
-        val list = ArrayList<String>()
-        array.forEach {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    it
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                list.add(it)
-            }
-        }
-        return list.isEmpty()
+        val un_permissions = MXPermission.getNoPermissionList(
+            requireContext(),
+            permissions.toList().toTypedArray()
+        )
+        PERMISSION_RESULT_MAP.remove(requestCode)
+            ?.invoke(un_permissions.isEmpty(), un_permissions.toTypedArray())
     }
 }

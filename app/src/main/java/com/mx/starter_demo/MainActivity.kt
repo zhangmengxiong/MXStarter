@@ -22,19 +22,23 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
         }
-
-        MXPermission.requestPermission(
-            this,
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        ) { allowed ->
-            Toast.makeText(
-                this@MainActivity,
-                "获取权限：$allowed",
-                Toast.LENGTH_SHORT
-            ).show()
+        findViewById<Button>(R.id.permission).setOnClickListener {
+            MXPermission.requestPermission(
+                this,
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            ) { allowed, p ->
+                Toast.makeText(
+                    this@MainActivity,
+                    "获取权限：$allowed  ${p.joinToString(",")}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }
