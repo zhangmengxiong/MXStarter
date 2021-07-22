@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import kotlin.random.Random
 
 class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class ResultActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.success).setOnClickListener {
             setResult(RESULT_OK, Intent().apply {
-                putExtra("ID", "asdasd")
+                putExtra("ID", "asdasd " + Random.nextInt(1000))
             })
             finish()
         }
