@@ -35,7 +35,7 @@ class MXPrivateFragment : Fragment(), LifecycleObserver {
                 fragmentManager
                     .beginTransaction()
                     .add(mxStarterFragment, PRIVATE_TAG)
-                    .commitNow()
+                    .commitNowAllowingStateLoss()
             }
             return mxStarterFragment
         }
@@ -104,7 +104,7 @@ class MXPrivateFragment : Fragment(), LifecycleObserver {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun cleanResultMao() {
+    fun cleanResultMap() {
         // Activity退出后，释放请求回调
         synchronized(SYNC_LOCK) {
             ACTIVITY_RESULT_MAP.entries.filter {
