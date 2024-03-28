@@ -1,6 +1,10 @@
 # MXStarter
 
-[![](https://jitpack.io/v/com.gitee.zhangmengxiong/MXStarter.svg)](https://jitpack.io/#com.gitee.zhangmengxiong/MXStarter)
+
+最新版本：[![](https://jitpack.io/v/com.gitee.zhangmengxiong/MXStarter.svg)](https://jitpack.io/#com.gitee.zhangmengxiong/MXStarter)
+```groovy
+    implementation 'com.gitee.zhangmengxiong:MXStarter:1.2.4'
+```
 
 ### 解决的问题
 Android开发中打开Activity并获取结果的原生方法：
