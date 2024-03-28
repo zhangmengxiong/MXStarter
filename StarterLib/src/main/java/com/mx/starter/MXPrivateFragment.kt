@@ -5,12 +5,12 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import java.util.*
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import java.util.TreeMap
 import java.util.concurrent.atomic.AtomicLong
 
-class MXPrivateFragment : Fragment(), LifecycleObserver {
+class MXPrivateFragment : Fragment(), LifecycleEventObserver {
     companion object {
         private const val PRIVATE_TAG = "MXPrivateFragment"
         private val FRAGMENT_INCREASE = AtomicLong(1)
@@ -25,7 +25,6 @@ class MXPrivateFragment : Fragment(), LifecycleObserver {
          * 权限结果集
          */
         private val PERMISSION_RESULT_MAP = TreeMap<Int, PermissionResultData>()
-
 
         fun getStarterFragment(fragmentManager: FragmentManager): MXPrivateFragment {
             var mxStarterFragment =
@@ -103,8 +102,8 @@ class MXPrivateFragment : Fragment(), LifecycleObserver {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun cleanResultMap() {
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        if (event != Lifecycle.Event.ON_DESTROY) return
         // Activity退出后，释放请求回调
         synchronized(SYNC_LOCK) {
             ACTIVITY_RESULT_MAP.entries.filter {

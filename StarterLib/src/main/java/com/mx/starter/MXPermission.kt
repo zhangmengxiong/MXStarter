@@ -59,8 +59,7 @@ object MXPermission {
         val list = ArrayList<String>()
         permissions.forEach {
             if (ContextCompat.checkSelfPermission(
-                    context,
-                    it
+                    context, it
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 list.add(it)

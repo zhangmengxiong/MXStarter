@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace 'com.mx.starter'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -18,11 +19,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 afterEvaluate {
@@ -33,13 +34,12 @@ afterEvaluate {
 
                 groupId = 'com.mx.starter'
                 artifactId = 'MXStarter'
-                version = '1.0.0'
+                version = rootProject.ext.versionName
             }
         }
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
